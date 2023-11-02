@@ -44,5 +44,35 @@ public class User {
     public void setFaculty(String faculty) {
         this.faculty = faculty;
     }
-
+    public void displayMenu() {
+    	if (this instanceof Staff) 
+    	{
+        System.out.println("------------- Staff Menu -------------");
+        System.out.println("1. Create a new camp");
+        System.out.println("2. Edit an existing camp");
+        System.out.println("3. Delete a camp");
+        System.out.println("4. Toggle camp visibility");
+        System.out.println("5. View all camps");
+        System.out.println("6. View my created camps");
+        System.out.println("7. View and reply to enquiries");
+        System.out.println("8. View and approve suggestions");
+        System.out.println("9. Generate a report");
+        System.out.println("10. Generate a performance report");
+        System.out.println("11. Exit");
+        System.out.print("Please enter the number of your choice: ");
+    	}
+    	else if (this instanceof Student)
+    	{
+	  	System.out.println("------------- Student Menu -------------");
+        System.out.println("1. View open camps");
+        System.out.println("2. View remaining slots");
+        System.out.println("3. Register for a camp");
+        System.out.println("4. Submit an enquiry");
+        System.out.println("5. View/edit/delete enquiries");
+        System.out.println("6. View registered camps");
+        System.out.println("7. Withdraw from a camp");
+        System.out.println("8. Exit");
+        System.out.print("Please enter the number of your choice: ");
+    	}
+    	}
 }

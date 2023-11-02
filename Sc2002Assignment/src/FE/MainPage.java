@@ -27,11 +27,11 @@ public class MainPage {
 		if (loggedInUser != null) {
 			if (loggedInUser instanceof Student) {
 		        System.out.println("Login successful. User is a student.Welcome: " + loggedInUser.getName());
-		        StudentPage.displayMenu();
+		        loggedInUser.displayMenu();
         } 
 			else if (loggedInUser instanceof Staff) {
 		        System.out.println("Login successful. User is a staff.Welcome: " + loggedInUser.getName());
-		        StaffPage.displayMenu();
+		        loggedInUser.displayMenu();
 		        
 		    }
 		}else {
