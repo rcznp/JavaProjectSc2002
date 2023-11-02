@@ -8,7 +8,8 @@ import java.util.ArrayList;
 public class Server {
 	
 	public static String StudentFilePath = "/Users/cheongray/Datasc2002/student";
-	public static String StaffFilePath = "/Users/cheongray/Datasc2002/staff";//haven't put yet
+	public static String StaffFilePath = "/Users/cheongray/Datasc2002/staff";
+	public static String CampsFilePath = "/Users/cheongray/Datasc2002/campData";
 	private static ArrayList<String> names;
     private static ArrayList<String> emails;
     private static ArrayList<String> faculties;
@@ -92,7 +93,7 @@ public class Server {
         // Add the new camp to the list of camps
         camps.add(newCamp);
         System.out.println("Camp created!");
-
+        saveCampsToTxtFile(CampsFilePath);
         return newCamp;
     }
 	public boolean deleteCamp(Camp camp) {
@@ -100,7 +101,7 @@ public class Server {
         if (camps.contains(camp)) {
             // Remove the camp from the list
             camps.remove(camp);
-
+            saveCampsToTxtFile(CampsFilePath);
             return true; // Deletion successful
         }
 
@@ -119,19 +120,55 @@ public class Server {
             camp.setTotalSlots(totalSlots);
             camp.setCampCommitteeSlots(campCommitteeSlots);
             camp.setDescription(description);
-
+            saveCampsToTxtFile(CampsFilePath);
             return true; // Edit successful
         }
 
         return false; // Camp not found
     }
+	public Camp findCampByName(String campName) {
+	    for (Camp camp : camps) {
+	        if (camp.getCampName().equals(campName)) {
+	            return camp;
+	        }
+	    }
+	    return null; // Camp not found
 	
-	
+	  
+	}
+	public ArrayList<Camp> getAllCamps(){
+		return camps;
+	}
+	public ArrayList<Camp> getAllAvailableCamps(User user){
+		ArrayList<Camp> availableCamps = new ArrayList<>();
+		for (Camp camp : camps) {
+	        // Check if the camp has available slots and the user's faculty matches the camp's user group
+	        if (camp.getAvailableSlots() > 0 && camp.getUserGroup().equalsIgnoreCase(user.getFaculty())) {
+	            availableCamps.add(camp);
+	        }
+	    }
+		return availableCamps;
+		
+	}
+	public ArrayList<Camp> getCampsCreatedByUser(User user) {//must check if User is staff(add)
+	    ArrayList<Camp> userCreatedCamps = new ArrayList<>();
+	    for (Camp camp : camps) {
+	        if (camp.getStaffInCharge().equals(user)) {
+	            userCreatedCamps.add(camp);
+	        }
+	    }
+	    return userCreatedCamps;
+	}
+	public void saveCampsToTxtFile(String filePath) {
+        CampFileHandler.saveCampsToTextFile(camps, filePath);
+    }
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
 		Server.start();
+		
 	}
+	
 
 }

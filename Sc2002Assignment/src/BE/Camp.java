@@ -14,6 +14,10 @@ public class Camp {
     private Staff staffInCharge; // A reference to the staff member in charge
     private ArrayList<Student> campAttendees;
     private ArrayList<Student> campCommitteeMembers;
+	private boolean isVisible;
+	private ArrayList<Inquiry> inquiries;
+
+	
 
     public Camp(String campName, String dates, String registrationClosingDate, String userGroup, String location,
                 int totalSlots, int campCommitteeSlots, String description, Staff staffInCharge) {
@@ -136,6 +140,25 @@ public class Camp {
             System.out.println("Camp committee is full. Cannot add more members.");
         }
     }
+    public void setCampVisibility(boolean isVisible) {
+        this.isVisible = isVisible;
+    }
+    public void addInquiry(User sender, String message) {
+        Inquiry inquiry = new Inquiry(sender, message);
+        inquiries.add(inquiry);
+    }
+
+    public ArrayList<Inquiry> getInquiries() {
+        return inquiries;
+    }
+
+    public void replyToInquiry(Inquiry inquiry, String reply) {
+        inquiry.setReply(reply);
+    }
+    public int getAvailableSlots() {
+        return totalSlots - campAttendees.size();
+    }
+   
 
 }
 
