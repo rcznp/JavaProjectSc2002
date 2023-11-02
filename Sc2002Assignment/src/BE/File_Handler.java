@@ -1,23 +1,79 @@
 package BE;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.FileHandler;
+import java.util.Scanner;
 public class File_Handler {
-	public static void Logger()
-	{
-		System.out.println("reading file....");
-	}
-	public static void copyFile(String sourcePath, String destinationPath) throws IOException {
-        Path source = Path.of(sourcePath);
-        Path destination = Path.of(destinationPath);
+    public static void printTextFile(String filePath) {
+ 
+        try {
+            // Create a FileReader to read the file
+            FileReader fileReader = new FileReader(filePath);
+            
+            // Wrap the FileReader in a BufferedReader for efficient reading
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-        // Create the directories if they don't exist
-        Files.createDirectories(destination.getParent());
+            String line;
+            // Read and print each line in the file
+            while ((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }
 
-        // Copy the file to the destination
-        Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
+            // Close the BufferedReader and FileReader
+            bufferedReader.close();
+            fileReader.close();
+        } catch (IOException e) {
+            System.err.println("An error occurred while reading the file: " + e.getMessage());
+        }
     }
+//    public static List<User> readUserDataFromFile(String filePath) 
+//    {
+//    	
+//    }
+    
+    public static void test2() throws FileNotFoundException {
+        Scanner s = new Scanner(new File("/Users/cheongray/Datasc2002/student"));
+        ArrayList<String> names = new ArrayList<>();
+        ArrayList<String> emails = new ArrayList<>();
+        ArrayList<String> faculties = new ArrayList<>();
+        ArrayList<String> userIDs= new ArrayList<>();
+        while (s.hasNextLine()) {
+            String line = s.nextLine();
+            String[] parts = line.split("\t");
+            if (parts.length >= 3) {
+                String name = parts[0].trim();
+                String email = parts[1].trim();
+                String faculty = parts[2].trim();
 
+                names.add(name);
+                emails.add(email);
+                faculties.add(faculty);
+                String[] emailParts = email.split("@");
+                String userID = emailParts[0];
+                userIDs.add(userID);
+            }
+        }
+        for (int i = 0; i < names.size(); i++) {
+            System.out.println("Name: " + names.get(i));
+            System.out.println("Email: " + emails.get(i));
+            System.out.println("Faculty: " + faculties.get(i));
+            System.out.println("UserID: " + userIDs.get(i));
+            System.out.println("--------");
+        }
+
+    }
+    public static void main(String[] args) {
+    	try {
+        File_Handler.test2();
+    	}
+    	catch(IOException e){
+    		 System.err.println("An error occurred while reading the file: " + e.getMessage());
+    	}
+    }
 }
