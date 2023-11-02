@@ -1,3 +1,6 @@
+
+//this is a UI to upload the student and staff txt files
+
 package FE;
 import BE.FilesCreation;//abstract away the low-level details of file operations(OOP) using FileHandler
 import java.io.IOException;
@@ -6,6 +9,7 @@ import BE.File_Handler;
 public class UploadFiles 
 {
 	public static void main(String[] args) {
+	System.out.println("-------------this is a UI to upload the student and staff txt files----------------");
 	System.out.println("-----------------------------");
 	Scanner scanner = new Scanner(System.in);
 

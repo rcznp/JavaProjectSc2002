@@ -6,8 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.FileHandler;
+
 import java.util.Scanner;
 public class File_Handler {
     public static void printTextFile(String filePath) {
@@ -37,8 +36,8 @@ public class File_Handler {
 //    	
 //    }
     
-    public static void test2() throws FileNotFoundException {
-        Scanner s = new Scanner(new File("/Users/cheongray/Datasc2002/student"));
+    public static ArrayList<ArrayList<String>>PutFileContentIntoArray(String filePath) throws FileNotFoundException {
+        Scanner s = new Scanner(new File(filePath));
         ArrayList<String> names = new ArrayList<>();
         ArrayList<String> emails = new ArrayList<>();
         ArrayList<String> faculties = new ArrayList<>();
@@ -59,21 +58,21 @@ public class File_Handler {
                 userIDs.add(userID);
             }
         }
-        for (int i = 0; i < names.size(); i++) {
-            System.out.println("Name: " + names.get(i));
-            System.out.println("Email: " + emails.get(i));
-            System.out.println("Faculty: " + faculties.get(i));
-            System.out.println("UserID: " + userIDs.get(i));
-            System.out.println("--------");
-        }
+        ArrayList<ArrayList<String>> allArrays = new ArrayList<>();
+        allArrays.add(names);
+        allArrays.add(emails);
+        allArrays.add(faculties);
+        allArrays.add(userIDs);
+        
+        return allArrays;
 
     }
-    public static void main(String[] args) {
-    	try {
-        File_Handler.test2();
-    	}
-    	catch(IOException e){
-    		 System.err.println("An error occurred while reading the file: " + e.getMessage());
-    	}
-    }
+//    public static void main(String[] args) {
+//    	try {
+//        File_Handler.test2();
+//    	}
+//    	catch(IOException e){
+//    		 System.err.println("An error occurred while reading the file: " + e.getMessage());
+//    	}
+//    }
 }

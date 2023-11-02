@@ -1,5 +1,7 @@
 package FE;
 import java.util.Scanner;
+
+//remember to use server(BE) to generate the server(server will just be arrays storing details)
 public class MainPage {
 
 	public static void main(String[] args) {
