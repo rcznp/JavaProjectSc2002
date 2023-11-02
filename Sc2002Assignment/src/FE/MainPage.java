@@ -43,16 +43,38 @@ public class MainPage {
 		                if (availableCamps.isEmpty()) {
 		                    System.out.println("There are no available camps for your faculty.");
 		                } else {
-		                    System.out.println("Available camps for your faculty:");
+		                    System.out.println("Available camps for you:");
 		                    for (Camp camp : availableCamps) {
 		                        System.out.println("Camp Name: " + camp.getCampName());
 		                        System.out.println("Dates: " + camp.getDates());
 		                        System.out.println("Location: " + camp.getLocation());
+		                        System.out.println("Vaccancy" + camp.getAvailableSlots());
 		                        // Add more camp details as needed
 		                        System.out.println("--------------------------------");
 		                    }
 		                }
 		                break;
+		            case 2:
+		            	availableCamps= serverInstance.getAllAvailableCamps(loggedInUser);
+		            	System.out.println("Available camps for you:");
+		                if (availableCamps.isEmpty()) {
+		                    System.out.println("There are no available camps for your faculty.");
+		                } else {
+		                    System.out.println("Available camps for you:");
+		                    for (Camp camp : availableCamps) {
+		                        System.out.println("Camp Name: " + camp.getCampName());
+		                        System.out.println("Dates: " + camp.getDates());
+		                        System.out.println("Location: " + camp.getLocation());
+		                        System.out.println("Vaccancy" + camp.getAvailableSlots());
+		                        // Add more camp details as needed
+		                        System.out.println("--------------------------------");
+		                    }
+		                }
+		            	System.out.println("Enter camp name you wish to join:");
+		            	String campName = scanner.nextLine();
+		            	System.out.println("Do you wish to join as a camp attendee or committee member?:");
+		            	System.out.println("Enter 1 for camp attendee and 0 for committee member");
+		            	int c = scanner.nextInt();
 		            }
 		            break;
 		        }
