@@ -55,6 +55,8 @@ public class File_Handler {
                 faculties.add(faculty);
                 String[] emailParts = email.split("@");
                 String userID = emailParts[0];
+                //String role = emailParts[1];
+                //System.out.println(role);
                 userIDs.add(userID);
             }
         }
@@ -67,12 +69,12 @@ public class File_Handler {
         return allArrays;
 
     }
-//    public static void main(String[] args) {
-//    	try {
-//        File_Handler.test2();
-//    	}
-//    	catch(IOException e){
-//    		 System.err.println("An error occurred while reading the file: " + e.getMessage());
-//    	}
-//    }
+    public static void main(String[] args) {
+    	try {
+        File_Handler.PutFileContentIntoArray("/Users/cheongray/Datasc2002/student");
+    	}
+    	catch(IOException e){
+    		 System.err.println("An error occurred while reading the file: " + e.getMessage());
+    	}
+    }
 }

@@ -35,11 +35,25 @@ public class Server {
             faculties = dataFromFileHandler.get(2);
             userIDs = dataFromFileHandler.get(3);
             
+            
             //server is an arraylist of User objects
             for (int i = 0; i < names.size(); i++) {
-                User user = new User(names.get(i), userIDs.get(i), faculties.get(i));
+                User user = new Student(names.get(i), userIDs.get(i), faculties.get(i));
                 usersData.add(user);
             }
+            dataFromFileHandler=File_Handler.PutFileContentIntoArray(StaffFilePath);
+            names = dataFromFileHandler.get(0);
+            emails = dataFromFileHandler.get(1);
+            faculties = dataFromFileHandler.get(2);
+            userIDs = dataFromFileHandler.get(3);
+            
+            
+            //server is an arraylist of User objects
+            for (int i = 0; i < names.size(); i++) {
+                User user = new Staff(names.get(i), userIDs.get(i), faculties.get(i));
+                usersData.add(user);
+            }
+            
 //            for (User user : usersData) {
 //                System.out.println("Name: " + user.getName());
 //                System.out.println("NTU Network ID: " + user.getNtuNetworkId());
@@ -56,13 +70,19 @@ public class Server {
 	}
 	}
 	public User login(String userID, String password) {
-        for (User user : usersData) {
-            if (user.getNtuNetworkId().equals(userID) && user.getPassword().equals(password)) {
-                return user; // Successful login
-            }
-        }
-        return null; // Login failed
-    }
+	    for (User user : usersData) {
+	        if (user.getNtuNetworkId().equals(userID) && user.getPassword().equals(password)) {
+	            if (user instanceof Student) {
+	                // User is a student
+	                return user; 
+	            } else if (user instanceof Staff) {
+	                // User is a staff
+	                return user; 
+	            }
+	        }
+	    }
+	    return null; // Login failed
+	}
 	
 	
 

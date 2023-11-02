@@ -45,6 +45,4 @@ public class User {
         this.faculty = faculty;
     }
 
-    public static void main(String[] args) {
-    }
 }

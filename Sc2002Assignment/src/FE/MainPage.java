@@ -1,6 +1,8 @@
 package FE;
 import java.util.Scanner;
 import BE.Server;
+import BE.Staff;
+import BE.Student;
 import BE.User;
 //remember to use server(BE) to generate the server(server will just be arraylist of Users  storing details)
 public class MainPage {
@@ -23,8 +25,14 @@ public class MainPage {
 		User loggedInUser = serverInstance.login(UserID, Password);
 		
 		if (loggedInUser != null) {
-            System.out.println("Login successful. User: " + loggedInUser.getName());
-        } else {
+			if (loggedInUser instanceof Student) {
+		        System.out.println("Login successful. User is a student: " + loggedInUser.getName());
+        } 
+			else if (loggedInUser instanceof Staff) {
+		        System.out.println("Login successful. User is a staff: " + loggedInUser.getName());
+		        
+		    }
+		}else {
             System.out.println("Login failed. Please check your credentials.");
         }
 		
