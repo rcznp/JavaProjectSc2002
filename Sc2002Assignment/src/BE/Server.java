@@ -145,7 +145,8 @@ public class Server {
 		ArrayList<Camp> availableCamps = new ArrayList<>();
 		for (Camp camp : camps) {
 	        // Check if the camp has available slots and the user's faculty matches the camp's user group
-	        if (camp.getAvailableSlots() > 0 && camp.getUserGroup().equalsIgnoreCase(user.getFaculty())) {
+	        if (camp.getAvailableSlots() > 0 && camp.getUserGroup().equalsIgnoreCase(user.getFaculty())||
+	                camp.getUserGroup().equalsIgnoreCase("NTU")) {
 	            availableCamps.add(camp);
 	        }
 	    }
