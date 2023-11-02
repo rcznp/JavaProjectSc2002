@@ -1,9 +1,8 @@
 package BE;
-
-import FE.StudentPage;
 import java.io.IOException;
 //creates the data storage when app starts so can check login credentials
-//put it inside MainPage,so when run menu,it will generate out data to compare
+//delete camps from the server
+//put it inside MainPage,so when run menu,it will generate out data to compare the userID and password
 import java.util.ArrayList;
 
 public class Server {
@@ -15,6 +14,7 @@ public class Server {
     private static ArrayList<String> faculties;
     private static ArrayList<String> userIDs;
     private static ArrayList<User> usersData;
+    private static ArrayList<Camp> camps; // Maintain a list of camps
     public Server()
     {
     	start();
@@ -27,6 +27,7 @@ public class Server {
         faculties = new ArrayList<>();
         userIDs = new ArrayList<>();
         usersData = new ArrayList<>();
+        camps = new ArrayList<>(); 
 
 		try {
             dataFromFileHandler=File_Handler.PutFileContentIntoArray(StudentFilePath);
@@ -83,6 +84,47 @@ public class Server {
 	    }
 	    return null; // Login failed
 	}
+	public Camp createCamp(Staff staff, String campName, String dates, String registrationClosingDate, String userGroup, String location,
+            int totalSlots, int campCommitteeSlots, String description) {
+        // Create a new camp using the provided details
+        Camp newCamp = staff.createCamp(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots, description);
+
+        // Add the new camp to the list of camps
+        camps.add(newCamp);
+        System.out.println("Camp created!");
+
+        return newCamp;
+    }
+	public boolean deleteCamp(Camp camp) {
+        // Check if the camp exists in the list of camps
+        if (camps.contains(camp)) {
+            // Remove the camp from the list
+            camps.remove(camp);
+
+            return true; // Deletion successful
+        }
+
+        return false; // Camp not found
+    }
+	public boolean editCamp(Camp camp, String campName, String dates, String registrationClosingDate, String userGroup, String location,
+            int totalSlots, int campCommitteeSlots, String description) {
+        // Check if the camp exists in the list of camps
+        if (camps.contains(camp)) {
+            // Update the camp details
+            camp.setCampName(campName);
+            camp.setDates(dates);
+            camp.setRegistrationClosingDate(registrationClosingDate);
+            camp.setUserGroup(userGroup);
+            camp.setLocation(location);
+            camp.setTotalSlots(totalSlots);
+            camp.setCampCommitteeSlots(campCommitteeSlots);
+            camp.setDescription(description);
+
+            return true; // Edit successful
+        }
+
+        return false; // Camp not found
+    }
 	
 	
 
