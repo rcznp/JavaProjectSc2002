@@ -1,4 +1,5 @@
 package BE;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 //creates the data storage when app starts so can check login credentials
 //delete camps from the server
@@ -28,7 +29,7 @@ public class Server {
         faculties = new ArrayList<>();
         userIDs = new ArrayList<>();
         usersData = new ArrayList<>();
-        camps = new ArrayList<>(); 
+        
 
 		try {
             dataFromFileHandler=File_Handler.PutFileContentIntoArray(StudentFilePath);
@@ -55,6 +56,7 @@ public class Server {
                 User user = new Staff(names.get(i), userIDs.get(i), faculties.get(i));
                 usersData.add(user);
             }
+            loadTxTtoCamps(CampsFilePath, usersData);
             
 //            for (User user : usersData) {
 //                System.out.println("Name: " + user.getName());
@@ -162,6 +164,17 @@ public class Server {
 	public void saveCampsToTxtFile(String filePath) {
         CampFileHandler.saveCampsToTextFile(camps, filePath);
     }
+	public static void loadTxTtoCamps(String filePath,ArrayList<User> usersData)
+	{
+		try {
+			camps = CampFileHandler.loadCampsFromFile(filePath, usersData);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
