@@ -5,9 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class GetText {
-    public static void main(String[] args) {
-        String filePath = "/Users/cheongray/eclipse-workspace/Sc2002Assignment/src/BE/test.txt"; 
-
+    public static void printTextFile(String filePath) {
+ 
         try {
             // Create a FileReader to read the file
             FileReader fileReader = new FileReader(filePath);
