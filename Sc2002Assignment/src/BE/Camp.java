@@ -142,7 +142,7 @@ public class Camp {
     public void addCampCommitteeMember(Student student) {
         if (campCommitteeMembers.size() < campCommitteeSlots) {
             campCommitteeMembers.add(student);
-            System.out.println("added student as Committee Member(Camp.java)");
+//            System.out.println("added student as Committee Member(Camp.java)");
             
         } else {
             System.out.println("Camp ccommittee is full. Cannot add more members.");

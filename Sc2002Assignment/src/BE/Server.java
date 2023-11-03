@@ -22,7 +22,7 @@ public class Server {
     {
     	start();
     	//print out "/Users/cheongray/Datasc2002/campDataWithMembers"
-    	System.out.println(camps.toString());
+    	
     }
 	public static void start()
 	{
@@ -99,7 +99,6 @@ public class Server {
         camps.add(newCamp);
         System.out.println("Camp created!");
         saveCampsToTxtFile(CampsFilePathWithMembers);
-        saveCampsToTxtFile(CampsFilePath);
         return newCamp;
     }
 	public boolean deleteCamp(Camp camp) {
@@ -107,7 +106,7 @@ public class Server {
         if (camps.contains(camp)) {
             // Remove the camp from the list
             camps.remove(camp);
-            saveCampsToTxtFile(CampsFilePath);
+            saveCampsToTxtFile(CampsFilePathWithMembers);
             return true; // Deletion successful
         }
 

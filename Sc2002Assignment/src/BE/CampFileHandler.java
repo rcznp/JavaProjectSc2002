@@ -139,7 +139,7 @@ public class CampFileHandler {
 
     	                    // Add camp attendees to the camp
     	                    String[] cm_array = CM.trim().split(",\\s*");
-    	                    String[] ca_array = CA.trim().split(",");
+    	                    String[] ca_array = CM.trim().split(",\\s*");
     	                   
     	                    for (String MemberID : cm_array) {
     	                        // Search for the Student object in usersData based on the attendeeName
@@ -149,8 +149,8 @@ public class CampFileHandler {
     	                    	        // Found a matching Student by name
     	                    	        Student mem = (Student) user1; // Cast to Student
     	                    	        camp.addCampCommitteeMember(mem);
-    	                    	        System.out.println("inside CampFilhandler");
-    	                    	        System.out.println(mem.getNtuNetworkId());
+//    	                    	        System.out.println("inside CampFilhandler");
+//    	                    	        System.out.println(mem.getNtuNetworkId());
     	                    	        break; // Exit the loop since you found the attendee
     	                    	    }
     	                    	}
