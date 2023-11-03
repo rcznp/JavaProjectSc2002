@@ -69,6 +69,7 @@ public class File_Handler {
         return allArrays;
 
     }
+    //public static void ()
     public static void main(String[] args) {
     	try {
         File_Handler.PutFileContentIntoArray("/Users/cheongray/Datasc2002/student");

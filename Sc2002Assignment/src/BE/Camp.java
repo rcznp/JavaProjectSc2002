@@ -9,25 +9,26 @@ public class Camp {
     private String userGroup;
     private String location;
     private int totalSlots;
-    private int campCommitteeSlots;
+    private int campCommitteeSlots;//max 10
     private String description;
     private Staff staffInCharge; // A reference to the staff member in charge
     private ArrayList<Student> campAttendees;
     private ArrayList<Student> campCommitteeMembers;
 	private boolean isVisible;
 	private ArrayList<Inquiry> inquiries;
+	
 
 	
 
     public Camp(String campName, String dates, String registrationClosingDate, String userGroup, String location,
-                int totalSlots, int campCommitteeSlots, String description, Staff staffInCharge) {
+                int totalSlots,String description, Staff staffInCharge,int committeeSlots) {
         this.campName = campName;
         this.dates = dates;
         this.registrationClosingDate = registrationClosingDate;
         this.userGroup = userGroup;
         this.location = location;
         this.totalSlots = totalSlots;
-        this.campCommitteeSlots = campCommitteeSlots;
+        this.campCommitteeSlots = committeeSlots;
         this.description = description;
         this.staffInCharge = staffInCharge;
         this.campAttendees = new ArrayList<>();
@@ -112,32 +113,39 @@ public class Camp {
         return campAttendees;
     }
 
-    public void setCampAttendees(ArrayList<Student> campAttendees) {
-        this.campAttendees = campAttendees;
-    }
+//    public void setCampAttendees(ArrayList<Student> campAttendees) {
+//        this.campAttendees = campAttendees;
+//    }
 
     public ArrayList<Student> getCampCommitteeMembers() {
         return campCommitteeMembers;
     }
 
-    public void setCampCommitteeMembers(ArrayList<Student> campCommitteeMembers) {
-        this.campCommitteeMembers = campCommitteeMembers;
-    }
+//    public void setCampCommitteeMembers(ArrayList<Student> campCommitteeMembers) {
+//        this.campCommitteeMembers = campCommitteeMembers;
+//    }
     // Method to add a student as a camp attendee
     public void addCampAttendee(Student student) {
         if (campAttendees.size() < totalSlots) {
             campAttendees.add(student);
+            
         } else {
             System.out.println("Camp is full. Cannot add more attendees.");
         }
+    }
+    public int getCommitteMembersSize()
+    {
+    	return campCommitteeMembers.size();
     }
 
     // Method to add a student as a camp committee member
     public void addCampCommitteeMember(Student student) {
         if (campCommitteeMembers.size() < campCommitteeSlots) {
             campCommitteeMembers.add(student);
+            System.out.println("added student as Committee Member(Camp.java)");
+            
         } else {
-            System.out.println("Camp committee is full. Cannot add more members.");
+            System.out.println("Camp ccommittee is full. Cannot add more members.");
         }
     }
     public void setCampVisibility(boolean isVisible) {
@@ -158,7 +166,25 @@ public class Camp {
     public int getAvailableSlots() {
         return totalSlots - campAttendees.size();
     }
-   
+    public int getAvailableSlotsForCommitteeMember()
+    {
+    	return campCommitteeSlots-campCommitteeMembers.size();
+    }
+    @Override
+    public String toString() {
+        return "Camp Name: " + campName + "\n" +
+               "Dates: " + dates + "\n" +
+               "Registration Closing Date: " + registrationClosingDate + "\n" +
+               "User Group: " + userGroup + "\n" +
+               "Location: " + location + "\n" +
+               "Total Slots: " + totalSlots + "\n" +
+               "Camp Committee Slots: " + campCommitteeSlots + "\n" +
+               "Description: " + description + "\n" +
+               "Staff in Charge: " + staffInCharge.getNtuNetworkId() + "\n" +
+               "Committee Members: " + campCommitteeMembers.toString() + "\n" +
+               "Camp Attendees: " + campAttendees.toString() + "\n";
+    }
+
 
 }
 

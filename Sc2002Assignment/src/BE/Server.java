@@ -11,6 +11,7 @@ public class Server {
 	public static String StudentFilePath = "/Users/cheongray/Datasc2002/student";
 	public static String StaffFilePath = "/Users/cheongray/Datasc2002/staff";
 	public static String CampsFilePath = "/Users/cheongray/Datasc2002/campData";
+	public static String CampsFilePathWithMembers = "/Users/cheongray/Datasc2002/campDataWithMembers";
 	private static ArrayList<String> names;
     private static ArrayList<String> emails;
     private static ArrayList<String> faculties;
@@ -20,6 +21,8 @@ public class Server {
     public Server()
     {
     	start();
+    	//print out "/Users/cheongray/Datasc2002/campDataWithMembers"
+    	System.out.println(camps.toString());
     }
 	public static void start()
 	{
@@ -56,7 +59,7 @@ public class Server {
                 User user = new Staff(names.get(i), userIDs.get(i), faculties.get(i));
                 usersData.add(user);
             }
-            loadTxTtoCamps(CampsFilePath, usersData);
+            camps = loadTxTtoCamps(CampsFilePathWithMembers, usersData);
             
 //            for (User user : usersData) {
 //                System.out.println("Name: " + user.getName());
@@ -88,13 +91,14 @@ public class Server {
 	    return null; // Login failed
 	}
 	public Camp createCamp(Staff staff, String campName, String dates, String registrationClosingDate, String userGroup, String location,
-            int totalSlots, int campCommitteeSlots, String description) {
+            int totalSlots, String description,int committeeSlots) {
         // Create a new camp using the provided details
-        Camp newCamp = staff.createCamp(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots, description);
+        Camp newCamp = staff.createCamp(campName, dates, registrationClosingDate, userGroup, location, totalSlots,description,committeeSlots);
 
         // Add the new camp to the list of camps
         camps.add(newCamp);
         System.out.println("Camp created!");
+        saveCampsToTxtFile(CampsFilePathWithMembers);
         saveCampsToTxtFile(CampsFilePath);
         return newCamp;
     }
@@ -122,7 +126,7 @@ public class Server {
             camp.setTotalSlots(totalSlots);
             camp.setCampCommitteeSlots(campCommitteeSlots);
             camp.setDescription(description);
-            saveCampsToTxtFile(CampsFilePath);
+            saveCampsToTxtFile(CampsFilePathWithMembers);
             return true; // Edit successful
         }
 
@@ -163,17 +167,46 @@ public class Server {
 	    return userCreatedCamps;
 	}
 	public void saveCampsToTxtFile(String filePath) {
-        CampFileHandler.saveCampsToTextFile(camps, filePath);
+        CampFileHandler.saveCampsToTextFile_2(camps, filePath);
     }
-	public static void loadTxTtoCamps(String filePath,ArrayList<User> usersData)
+	public static ArrayList<Camp> loadTxTtoCamps(String filePath,ArrayList<User> usersData)
 	{
 		try {
+			System.out.println("loading txt file into server...");
 			camps = CampFileHandler.loadCampsFromFile(filePath, usersData);
+			return camps;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
 		
+	}
+	public boolean registerAsCommitteeMemeber(Student student,String CampName)
+	{
+		Camp TargetCamp = findCampByName(CampName);
+		if((TargetCamp.getAvailableSlotsForCommitteeMember()>0))
+		{
+			
+			TargetCamp.addCampCommitteeMember(student);
+			saveCampsToTxtFile(CampsFilePathWithMembers);
+			return true;
+		}
+		return false;
+		
+		
+	}
+	public boolean registerAsCampAttendee(Student student,String CampName)
+	{
+		Camp TargetCamp = findCampByName(CampName);
+		if((TargetCamp.getAvailableSlots()>0))
+		{
+			
+			TargetCamp.addCampAttendee(student);
+			saveCampsToTxtFile(CampsFilePathWithMembers);
+			return true;
+		}
+		return false;
 	}
 	
 

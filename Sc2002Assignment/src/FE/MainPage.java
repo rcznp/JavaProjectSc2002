@@ -11,13 +11,9 @@ import BE.Inquiry;
 public class MainPage {
 
 	private static Server serverInstance;
-	public MainPage() {
-        //new instance of server for every new page
-		serverInstance = new Server();
-    }
 	public static void main(String[] args) 
 	{
-		MainPage M = new MainPage();
+		
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("-------------Camp Application and Management System (CAMs).----------------");
 		System.out.println("---------------------------------------------------------------------------");
@@ -25,6 +21,7 @@ public class MainPage {
 		String UserID= scanner.nextLine();
 		System.out.println("Password:");
 		String Password= scanner.nextLine();
+		serverInstance = new Server();
 		User loggedInUser = serverInstance.login(UserID, Password);
 		
 		if (loggedInUser != null) {
@@ -34,7 +31,7 @@ public class MainPage {
 		        {
 		        	loggedInUser.displayMenu();
 		        	int choice = scanner.nextInt();
-
+		        	scanner.nextLine();//clear the \n
 		            switch (choice) {
 		            case 1:
 		                // View available camps by faculty and visibility toggle
@@ -54,6 +51,7 @@ public class MainPage {
 		                    }
 		                }
 		                break;
+		               
 		            case 2:
 		            	availableCamps= serverInstance.getAllAvailableCamps(loggedInUser);
 		            	System.out.println("Available camps for you:");
@@ -72,11 +70,45 @@ public class MainPage {
 		                }
 		            	System.out.println("Enter camp name you wish to join:");
 		            	String campName = scanner.nextLine();
-		            	System.out.println("Do you wish to join as a camp attendee or committee member?:");
+		            	
+		            	System.out.println("Do you wish to join as a camp attendee or committee member?");
 		            	System.out.println("Enter 1 for camp attendee and 0 for committee member");
+		       
 		            	int c = scanner.nextInt();
+		            	scanner.nextLine();
+		            	switch (c) {
+                        case 0:
+                            // Handle joining as a committee member
+                        	//server will update the campData
+                        	
+                        	//i have Student object and server object
+                        	
+                        	if(serverInstance.registerAsCommitteeMemeber((Student) loggedInUser,campName))
+                        	{
+                        		System.out.println("registered as Committee Member for Camp "+ campName);
+                        		
+                        	}
+                        			
+                        	
+                            break;
+
+                        case 1:
+                            // Handle joining as a camp attendee
+                        	if(serverInstance.registerAsCampAttendee((Student) loggedInUser,campName))
+                        	{
+                        		System.out.println("registered as Camp Attendee");
+                        	}
+                        	
+                            break;
+
+                        default:
+                            System.out.println("Invalid choice for joining. Please enter 0 or 1.");
+                            break;
+		            	
+		            	}
+		            	break;
 		            }
-		            break;
+		            
 		        }
 		        
         } 
@@ -116,7 +148,7 @@ public class MainPage {
 		                    
 		                    System.out.println("Enter the description: ");
 		                    String description = scanner.nextLine();
-		                    serverInstance.createCamp((Staff) loggedInUser, campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots, description);
+		                    serverInstance.createCamp((Staff) loggedInUser, campName, dates, registrationClosingDate, userGroup, location, totalSlots,description,campCommitteeSlots);
 		                    
 		                    
 		                    break;
@@ -270,9 +302,6 @@ public class MainPage {
 		                    
 		                    
 		                    break;
-
-
-
 
 
 		            }
