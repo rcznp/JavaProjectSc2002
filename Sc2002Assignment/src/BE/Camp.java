@@ -14,14 +14,14 @@ public class Camp {
     private Staff staffInCharge; // A reference to the staff member in charge
     private ArrayList<Student> campAttendees;
     private ArrayList<Student> campCommitteeMembers;
-	private boolean isVisible;
+	private boolean visible;
 	private ArrayList<Inquiry> inquiries;
 	
 
 	
 
     public Camp(String campName, String dates, String registrationClosingDate, String userGroup, String location,
-                int totalSlots,String description, Staff staffInCharge,int committeeSlots) {
+                int totalSlots,String description, Staff staffInCharge,int committeeSlots,Boolean v) {
         this.campName = campName;
         this.dates = dates;
         this.registrationClosingDate = registrationClosingDate;
@@ -33,9 +33,17 @@ public class Camp {
         this.staffInCharge = staffInCharge;
         this.campAttendees = new ArrayList<>();
         this.campCommitteeMembers = new ArrayList<>();
+        this.visible = v;
+    }
+    public boolean isVisible() {
+        return visible;
     }
 
-    // Getters and setters for the camp's attributes
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+
 
     public String getCampName() {
         return campName;
@@ -147,9 +155,6 @@ public class Camp {
         } else {
             System.out.println("Camp ccommittee is full. Cannot add more members.");
         }
-    }
-    public void setCampVisibility(boolean isVisible) {
-        this.isVisible = isVisible;
     }
     public void addInquiry(User sender, String message) {
         Inquiry inquiry = new Inquiry(sender, message);

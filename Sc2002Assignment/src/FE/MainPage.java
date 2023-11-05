@@ -15,14 +15,28 @@ public class MainPage {
 	{
 		
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("-------------Camp Application and Management System (CAMs).----------------");
-		System.out.println("---------------------------------------------------------------------------");
-		System.out.println("UserID:");
-		String UserID= scanner.nextLine();
-		System.out.println("Password:");
-		String Password= scanner.nextLine();
-		serverInstance = new Server();
-		User loggedInUser = serverInstance.login(UserID, Password);
+        System.out.println("-------------Camp Application and Management System (CAMs).----------------");
+        System.out.println("---------------------------------------------------------------------------");
+
+        User loggedInUser = null;
+        boolean loginSuccessful = false;
+
+        while (!loginSuccessful) {
+            System.out.println("UserID:");
+            String UserID = scanner.nextLine();
+            System.out.println("Password:");
+            String Password = scanner.nextLine();
+
+            serverInstance = new Server();
+            loggedInUser = serverInstance.login(UserID, Password);
+
+            if (loggedInUser != null) {
+                loginSuccessful = true;
+            } else {
+                System.out.println("Login failed. Please check your credentials.");
+            }
+        }
+		
 		
 		if (loggedInUser != null) {
 			if (loggedInUser instanceof Student) {
@@ -41,14 +55,19 @@ public class MainPage {
 		                    System.out.println("There are no available camps for your faculty.");
 		                } else {
 		                    System.out.println("Available camps for you:");
-		                    for (Camp camp : availableCamps) {
-		                        System.out.println("Camp Name: " + camp.getCampName());
-		                        System.out.println("Dates: " + camp.getDates());
-		                        System.out.println("Location: " + camp.getLocation());
-		                        System.out.println("Vaccancy" + camp.getAvailableSlots());
-		                        // Add more camp details as needed
-		                        System.out.println("--------------------------------");
+		                    for (Camp camp : availableCamps) 
+		                    if(camp.isVisible())
+		                    {
+			                    {
+			                        System.out.println("Camp Name: " + camp.getCampName());
+			                        System.out.println("Dates: " + camp.getDates());
+			                        System.out.println("Location: " + camp.getLocation());
+			                        System.out.println("Vaccancy" + camp.getAvailableSlots());
+			                        // Add more camp details as needed
+			                        System.out.println("--------------------------------");
+			                    }
 		                    }
+		                   
 		                }
 		                break;
 		               
@@ -126,11 +145,46 @@ public class MainPage {
 		                	System.out.println("Enter the camp name: ");
 		                    String campName = scanner.nextLine();
 		                    
-		                    System.out.println("Enter the dates: ");
-		                    String dates = scanner.nextLine();
+		                    String startDate = null;
+		                    boolean validStartDate = false;
+		                    while (!validStartDate) {
+		                        System.out.println("Enter the start date (DD/MM/YY): ");
+		                        startDate = scanner.nextLine();
+		                        if (isValidDateFormat(startDate)) {
+		                            validStartDate = true;
+		                        } else {
+		                            System.out.println("Invalid date format. Please use DD/MM/YY format.");
+		                        }
+		                    }
+		                    String endDate = null;
+		                    boolean validEndDate = false;
+		                    while (!validEndDate) {
+		                        System.out.println("Enter the end date (DD/MM/YY): ");
+		                        endDate = scanner.nextLine();
+		                        if (isValidDateFormat(endDate)) {
+		                            validEndDate = true;
+		                        } else {
+		                            System.out.println("Invalid date format. Please use DD/MM/YY format.");
+		                        }
+		                    }
+		                    String dates = startDate + " - " + endDate;
+		                
+		                    boolean validRegDate = false;
+		                    String registrationClosingDate=null;
+		                    while(!validRegDate)
+		                    {
+		                    	 System.out.println("Enter the registration closing date: ");
+				                 registrationClosingDate = scanner.nextLine();
+				                 if (isValidDateFormat(registrationClosingDate)) {
+			                            validRegDate = true;
+			                        } else {
+			                            System.out.println("Invalid date format. Please use DD/MM/YY format.");
+			                        }
+		                    }
 		                    
-		                    System.out.println("Enter the registration closing date: ");
-		                    String registrationClosingDate = scanner.nextLine();
+
+		                    
+		                   
 		                    
 		                    System.out.println("Enter the user group(own school or whole of NTU): ");
 		                    String userGroup = scanner.nextLine();
@@ -148,7 +202,7 @@ public class MainPage {
 		                    
 		                    System.out.println("Enter the description: ");
 		                    String description = scanner.nextLine();
-		                    serverInstance.createCamp((Staff) loggedInUser, campName, dates, registrationClosingDate, userGroup, location, totalSlots,description,campCommitteeSlots);
+		                    serverInstance.createCamp((Staff) loggedInUser, campName, dates, registrationClosingDate, userGroup, location, totalSlots,description,campCommitteeSlots,true);
 		                    
 		                    
 		                    break;
@@ -215,20 +269,33 @@ public class MainPage {
 		                    Camp campToToggle = serverInstance.findCampByName(campToToggleVisibility);
 
 		                    if (campToToggle != null) {
-		                        System.out.println("Do you want to make the camp visible (1) or invisible (0)? Enter 1 or 0: ");
-		                        int visibilityChoice = scanner.nextInt();
+		                    	System.out.println("Current visibility: " + (campToToggle.isVisible() ? "Visible" : "Not Visible"));
+		                    
+		                        
+		                    System.out.println("Do you want to toggle visibility? (yes/no): ");
+		                    String toggleChoice = scanner.nextLine().toLowerCase();
 
-		                        if (visibilityChoice == 0 || visibilityChoice == 1) {
-		                            boolean isVisible = (visibilityChoice == 1);//if 1 means that this is true,so isVisble=1
-		                            campToToggle.setCampVisibility(isVisible);
-		                            System.out.println("Camp visibility toggled successfully.");
-		                        } else {
-		                            System.out.println("Invalid choice. Please enter 1 for visible or 0 for invisible.");
-		                        }
-		                    } else {
-		                        System.out.println("Camp not found.");
+		                    switch (toggleChoice) 
+		                    {
+		                        case "yes":
+		                            serverInstance.toggleVisibility((Staff) loggedInUser, campToToggle);
+		                            
+		                            System.out.println("Visibility toggled successfully.");
+		                            break;
+		                        case "no":
+		                            System.out.println("Visibility not changed.");
+		                            break;
+		                        default:
+		                            System.out.println("Invalid choice. Visibility not changed.");
+		                            break;
 		                    }
-		                    break;
+		                    }
+		                    else 
+		                    {
+		                    System.out.println("Camp not found.");
+		                    }
+		            
+		                break;
 		                case 5:
 		                    // View all camps
 		                    ArrayList<Camp> allCamps = serverInstance.getAllCamps();
@@ -315,6 +382,11 @@ public class MainPage {
 		
 		scanner.close();
 
+	}
+	private static boolean isValidDateFormat(String date) {
+	    // Implement date format validation logic here
+	    // You can use regular expressions or other methods to check the format
+	    return date.matches("\\d{2}/\\d{2}/\\d{2}");
 	}
 
 }

@@ -1,6 +1,7 @@
 package BE;
 
 
+import java.beans.Visibility;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,6 +30,7 @@ public class CampFileHandler {
 	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
 	        for (Camp camp : camps) {
 	            // Write camp data to the TXT file
+	        	writer.write("Visibility: " + camp.isVisible() + "\n");
 	            writer.write("Camp Name: " + camp.getCampName() + "\n");
 	            writer.write("Dates: " + camp.getDates() + "\n");
 	            writer.write("Registration Closing Date: " + camp.getRegistrationClosingDate() + "\n");
@@ -61,15 +63,18 @@ public class CampFileHandler {
 	            }
 
 	            writer.write("Camp Attendees: " + camp.getCampAttendees().toString()+"\n");
-	            System.out.println("Camp Attendees for Camp " + camp.getCampName() + ":");
-	            for (Student attendee : camp.getCampAttendees()) {
-	                System.out.println("Student Name: " + attendee.getName());
-	                System.out.println("Student ID: " + attendee.getNtuNetworkId());
-	                
-	                System.out.println("---------------");
-	            }
+//	            System.out.println("Camp Attendees for Camp " + camp.getCampName() + ":");
+//	            for (Student attendee : camp.getCampAttendees()) {
+//	                System.out.println("Student Name: " + attendee.getName());
+//	                System.out.println("Student ID: " + attendee.getNtuNetworkId());
+//	                
+//	                System.out.println("---------------");
+//	            }
 
-	            System.out.println("-Camp Committee Members for Camp " + camp.getCampName() + ": " + camp.getCampCommitteeMembers().toString());
+	            
+//	            System.out.println("-Camp Committee Members for Camp " + camp.getCampName() + ": " + camp.getCampCommitteeMembers().toString());
+	            
+	            
 	            writer.write("\n"); // Add a separator between camps
 	        }
 	    } catch (IOException e) {
@@ -106,6 +111,8 @@ public class CampFileHandler {
     	        ArrayList<Camp> camps = new ArrayList<>();
     	        while (s.hasNext()) {
     	            // Read camp data from the file
+    	        	String visibility = s.nextLine().replace("Visibility: ", "");
+    	        	
     	        	String campName = s.nextLine().replace("Camp Name: ", "");
     	            String dates = s.nextLine().replace("Dates: ", "");
     	            String registrationClosingDate = s.nextLine().replace("Registration Closing Date: ", "");
@@ -119,6 +126,7 @@ public class CampFileHandler {
     	            String staffInCharge = s.nextLine().replace("Staff in Charge: ", "");
     	            String CM = s.nextLine().replace("Committee Members: ", "");
     	            String CA = s.nextLine().replace("Committee Attendees: ", "");
+
     	            
     	            
     	            //find user object
@@ -135,8 +143,11 @@ public class CampFileHandler {
     	                if (user instanceof Staff && user.getNtuNetworkId().equals(staffInCharge)) {
     	                    Staff staff = (Staff) user; // Cast the user to Staff
     	                    
-    	                    Camp camp = staff.createCamp(campName, dates, registrationClosingDate, userGroup, location, totalSlots, description, campCommitteeSlots);
-
+    	                    
+    	                    Camp camp = staff.createCamp(campName, dates, registrationClosingDate, userGroup, location, totalSlots, description, campCommitteeSlots,Boolean.parseBoolean(visibility));
+    	                    
+    	                    
+    	                   
     	                    // Add camp attendees to the camp
     	                    String[] cm_array = CM.trim().split(",\\s*");
     	                    String[] ca_array = CM.trim().split(",\\s*");
