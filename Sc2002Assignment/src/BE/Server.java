@@ -91,9 +91,9 @@ public class Server {
 	    return null; // Login failed
 	}
 	public Camp createCamp(Staff staff, String campName, String dates, String registrationClosingDate, String userGroup, String location,
-            int totalSlots, String description,int committeeSlots,boolean v) {
+            int totalSlots, String description,int committeeSlots,boolean v,int campCommitteeSlots,int campMemberSlots) {
         // Create a new camp using the provided details
-        Camp newCamp = staff.createCamp(campName, dates, registrationClosingDate, userGroup, location, totalSlots,description,committeeSlots,v);
+        Camp newCamp = staff.createCamp(campName, dates, registrationClosingDate, userGroup, location, totalSlots,description,committeeSlots,v,campCommitteeSlots,campMemberSlots);
 
         // Add the new camp to the list of camps
         camps.add(newCamp);

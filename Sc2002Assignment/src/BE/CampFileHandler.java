@@ -41,6 +41,7 @@ public class CampFileHandler {
 	            writer.write("Description: " + camp.getDescription() + "\n");
 	            writer.write("Staff in Charge: " + camp.getStaffInCharge().getNtuNetworkId() + "\n");
 	            
+	            
 	            // Add Committee Members and Camp Attendees
 //	            writer.write("Committee Members: " + camp.getCampCommitteeMembers().toString() + "\n");
 	            writer.write("Committee Members: ");
@@ -74,7 +75,8 @@ public class CampFileHandler {
 	            
 //	            System.out.println("-Camp Committee Members for Camp " + camp.getCampName() + ": " + camp.getCampCommitteeMembers().toString());
 	            
-	            
+	            writer.write("Available Camp Member Slots: " + camp.getAvailableSlots() +"\n");
+	            writer.write("Available Camp Committee Slots: " + camp.getAvailableSlotsForCommitteeMember() +"\n");
 	            writer.write("\n"); // Add a separator between camps
 	        }
 	    } catch (IOException e) {
@@ -126,9 +128,10 @@ public class CampFileHandler {
     	            String staffInCharge = s.nextLine().replace("Staff in Charge: ", "");
     	            String CM = s.nextLine().replace("Committee Members: ", "");
     	            String CA = s.nextLine().replace("Committee Attendees: ", "");
-
-    	            
-    	            
+    	            String AvailableSlots_CA = s.nextLine().replace("Available Camp Member Slots: ","");
+    	            String AvailableSlots_CM = s.nextLine().replace("Available Camp Committee Slots: ","");
+    	            int Attendee_slots = Integer.parseInt(AvailableSlots_CA);
+    	            int Committee_slots = Integer.parseInt(AvailableSlots_CM);
     	            //find user object
     	            
     	           
@@ -144,7 +147,7 @@ public class CampFileHandler {
     	                    Staff staff = (Staff) user; // Cast the user to Staff
     	                    
     	                    
-    	                    Camp camp = staff.createCamp(campName, dates, registrationClosingDate, userGroup, location, totalSlots, description, campCommitteeSlots,Boolean.parseBoolean(visibility));
+    	                    Camp camp = staff.createCamp(campName, dates, registrationClosingDate, userGroup, location, totalSlots, description, campCommitteeSlots,Boolean.parseBoolean(visibility),Committee_slots,Attendee_slots);
     	                    
     	                    
     	                   

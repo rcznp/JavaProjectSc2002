@@ -15,13 +15,13 @@ public class Staff extends User {
         this.staffAttribute = staffAttribute;
     }
     public Camp createCamp(String campName, String dates, String registrationClosingDate, String userGroup, String location,
-            int totalSlots, String description,int committeeSlots,boolean v) 
+            int totalSlots, String description,int committeeSlots,boolean v,int campComitteeSlots,int campMemberSlots) 
     {
 
 
 // Create a new camp with the provided details and set the staff in charge
     	Camp newCamp = new Camp(campName, dates, registrationClosingDate, userGroup, location,
-        totalSlots,description, this,committeeSlots,v);
+        totalSlots,description, this,committeeSlots,v,campComitteeSlots,campMemberSlots);
 
 // Add the new camp to the list of camps managed by this staff
 // You can maintain a list of camps associated with the staff for future reference

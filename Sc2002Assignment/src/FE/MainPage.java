@@ -62,7 +62,9 @@ public class MainPage {
 			                        System.out.println("Camp Name: " + camp.getCampName());
 			                        System.out.println("Dates: " + camp.getDates());
 			                        System.out.println("Location: " + camp.getLocation());
-			                        System.out.println("Vaccancy" + camp.getAvailableSlots());
+			                        System.out.println("Camp attendee Vaccancy: " + camp.getAvailableSlots());
+			                        System.out.println("Camp Committee Vaccancy: " + camp.getAvailableSlotsForCommitteeMember());
+			                  
 			                        // Add more camp details as needed
 			                        System.out.println("--------------------------------");
 			                    }
@@ -82,7 +84,8 @@ public class MainPage {
 		                        System.out.println("Camp Name: " + camp.getCampName());
 		                        System.out.println("Dates: " + camp.getDates());
 		                        System.out.println("Location: " + camp.getLocation());
-		                        System.out.println("Vaccancy" + camp.getAvailableSlots());
+		                        System.out.println("Camp Attendee Vaccancy" + camp.getAvailableSlots());
+		                        System.out.println("Camp Committee Vaccancy" + camp.getAvailableSlotsForCommitteeMember());
 		                        // Add more camp details as needed
 		                        System.out.println("--------------------------------");
 		                    }
@@ -202,7 +205,7 @@ public class MainPage {
 		                    
 		                    System.out.println("Enter the description: ");
 		                    String description = scanner.nextLine();
-		                    serverInstance.createCamp((Staff) loggedInUser, campName, dates, registrationClosingDate, userGroup, location, totalSlots,description,campCommitteeSlots,true);
+		                    serverInstance.createCamp((Staff) loggedInUser, campName, dates, registrationClosingDate, userGroup, location, totalSlots,description,campCommitteeSlots,true,campCommitteeSlots,totalSlots);
 		                    
 		                    
 		                    break;

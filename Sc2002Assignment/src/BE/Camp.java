@@ -10,6 +10,7 @@ public class Camp {
     private String location;
     private int totalSlots;
     private int campCommitteeSlots;//max 10
+    private int campMemberSlots;
     private String description;
     private Staff staffInCharge; // A reference to the staff member in charge
     private ArrayList<Student> campAttendees;
@@ -21,7 +22,7 @@ public class Camp {
 	
 
     public Camp(String campName, String dates, String registrationClosingDate, String userGroup, String location,
-                int totalSlots,String description, Staff staffInCharge,int committeeSlots,Boolean v) {
+                int totalSlots,String description, Staff staffInCharge,int committeeSlots,Boolean v,int campCommitteeSlots,int campMemberSlots) {
         this.campName = campName;
         this.dates = dates;
         this.registrationClosingDate = registrationClosingDate;
@@ -34,6 +35,8 @@ public class Camp {
         this.campAttendees = new ArrayList<>();
         this.campCommitteeMembers = new ArrayList<>();
         this.visible = v;
+        this.campCommitteeSlots = campCommitteeSlots;
+        this.campMemberSlots = campMemberSlots;
     }
     public boolean isVisible() {
         return visible;
@@ -136,6 +139,7 @@ public class Camp {
     public void addCampAttendee(Student student) {
         if (campAttendees.size() < totalSlots) {
             campAttendees.add(student);
+            campMemberSlots--;
             
         } else {
             System.out.println("Camp is full. Cannot add more attendees.");
@@ -150,6 +154,7 @@ public class Camp {
     public void addCampCommitteeMember(Student student) {
         if (campCommitteeMembers.size() < campCommitteeSlots) {
             campCommitteeMembers.add(student);
+            campCommitteeSlots--;
 //            System.out.println("added student as Committee Member(Camp.java)");
             
         } else {
@@ -169,11 +174,11 @@ public class Camp {
         inquiry.setReply(reply);
     }
     public int getAvailableSlots() {
-        return totalSlots - campAttendees.size();
+        return campMemberSlots;
     }
     public int getAvailableSlotsForCommitteeMember()
     {
-    	return campCommitteeSlots-campCommitteeMembers.size();
+    	return campCommitteeSlots;
     }
     @Override
     public String toString() {
